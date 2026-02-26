@@ -2,6 +2,13 @@ export interface NavigationGuardOptions {
   /** @default true */
   enabled?: boolean | ((params: NavigationGuardParams) => boolean);
   confirm?: NavigationGuardCallback;
+  /**
+   * When true, the hook becomes a complete no-op: no guard is registered,
+   * NavigationGuardProvider context is not required, and `active` is always false.
+   * Intended for test and storybook environments.
+   * @default false
+   */
+  disableForTesting?: boolean;
 }
 
 export interface NavigationGuardParams {

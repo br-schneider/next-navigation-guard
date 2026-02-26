@@ -8,7 +8,7 @@ import { debug } from "../utils/debug";
 export function useNavigationGuard(options: NavigationGuardOptions) {
   const callbackId = useId();
   const guardMapRef = useContext(NavigationGuardProviderContext);
-  if (!guardMapRef)
+  if (!guardMapRef && !options.disableForTesting)
     throw new Error(
       "useNavigationGuard must be used within a NavigationGuardProvider"
     );
@@ -18,6 +18,8 @@ export function useNavigationGuard(options: NavigationGuardOptions) {
   } | null>(null);
 
   useIsomorphicLayoutEffect(() => {
+    if (options.disableForTesting) return;
+
     const callback: NavigationGuardCallback = (params) => {
       debug(`Guard callback called with:`, params);
       if (options.confirm) {
@@ -36,17 +38,17 @@ export function useNavigationGuard(options: NavigationGuardOptions) {
 
     const enabled = options.enabled;
 
-    guardMapRef.current.set(callbackId, {
+    guardMapRef!.current.set(callbackId, {
       enabled: typeof enabled === "function" ? enabled : () => enabled ?? true,
       callback,
     });
 
     return () => {
-      guardMapRef.current.delete(callbackId);
+      guardMapRef!.current.delete(callbackId);
     };
-  }, [callbackId, guardMapRef, options.confirm, options.enabled]);
+  }, [callbackId, guardMapRef, options.confirm, options.enabled, options.disableForTesting]);
 
-  const active = pendingState !== null;
+  const active = options.disableForTesting ? false : pendingState !== null;
 
   const accept = useCallback(() => {
     if (!pendingState) return;
