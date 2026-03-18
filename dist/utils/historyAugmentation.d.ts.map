@@ -1,0 +1,1 @@
+{"version":3,"file":"historyAugmentation.d.ts","sourceRoot":"","sources":["../../src/utils/historyAugmentation.tsx"],"names":[],"mappings":"AAEA,OAAO,EAAE,aAAa,EAAE,MAAM,UAAU,CAAC;AAMzC,wBAAgB,QAAQ,WAEvB;AAKD,wBAAgB,4BAA4B,CAAC,EAC3C,gBAAgB,GACjB,EAAE;IACD,gBAAgB,EAAE;QAAE,OAAO,EAAE,aAAa,CAAA;KAAE,CAAC;CAC9C,GAAG;IAAE,UAAU,EAAE,MAAM,IAAI,CAAA;CAAE,CAiG7B"}

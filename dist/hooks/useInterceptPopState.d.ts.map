@@ -1,0 +1,1 @@
+{"version":3,"file":"useInterceptPopState.d.ts","sourceRoot":"","sources":["../../src/hooks/useInterceptPopState.ts"],"names":[],"mappings":"AAEA,OAAO,EAAE,QAAQ,EAAiB,MAAM,UAAU,CAAC;AAcnD,wBAAgB,oBAAoB,CAAC,EACnC,WAAW,GACZ,EAAE;IACD,WAAW,EAAE,KAAK,CAAC,gBAAgB,CAAC,GAAG,CAAC,MAAM,EAAE,QAAQ,CAAC,CAAC,CAAC;CAC5D,QAiCA"}

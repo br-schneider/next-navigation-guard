@@ -1,0 +1,1 @@
+{"version":3,"file":"useInterceptPageUnload.d.ts","sourceRoot":"","sources":["../../src/hooks/useInterceptPageUnload.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,UAAU,CAAC;AAGpC,wBAAgB,sBAAsB,CAAC,EACrC,WAAW,GACZ,EAAE;IACD,WAAW,EAAE,KAAK,CAAC,gBAAgB,CAAC,GAAG,CAAC,MAAM,EAAE,QAAQ,CAAC,CAAC,CAAC;CAC5D,QAqBA"}
