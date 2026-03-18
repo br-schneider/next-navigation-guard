@@ -1,9 +1,9 @@
 "use client";
 
-import React, { MutableRefObject } from "react";
+import { createContext, type MutableRefObject } from "react";
 import { GuardDef } from "../types";
 
-export const NavigationGuardProviderContext = React.createContext<
+export const NavigationGuardProviderContext = createContext<
   MutableRefObject<Map<string, GuardDef>> | undefined
 >(undefined);
 NavigationGuardProviderContext.displayName = "NavigationGuardProviderContext";
