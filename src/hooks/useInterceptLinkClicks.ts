@@ -24,7 +24,6 @@ export function useInterceptLinkClicks({
 
     // Reset on remount (React Strict Mode)
     if (isSetup.current) return;
-    isSetup.current = true;
 
     // If AppRouterContext doesn't exist, skip
     if (!AppRouterContext) {
@@ -38,6 +37,8 @@ export function useInterceptLinkClicks({
       return;
     }
 
+    // Mark as setup only after all checks pass
+    isSetup.current = true;
     debug("Setting up link click interceptor");
 
     const handleLinkClick = async (e: MouseEvent) => {

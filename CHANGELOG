@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3] - 2026-03-18
+
+### Fixed
+
+- Fix `isSetup` ref blocking link interceptor re-initialization when App Router
+  context transitions from null to non-null
+- Fix `refresh()` passing full URL (`location.href`) as the `to` parameter —
+  now uses `location.pathname + location.search` for consistency with push/replace
+- Fix `"types"` condition order in package.json exports (must be first per TypeScript docs)
+- Remove incorrect `"module"` field pointing to CJS output
+
+### Changed
+
+- CI now uses `pnpm install --frozen-lockfile` for reproducible builds
+
+## [1.0.2] - 2026-03-18
+
+### Fixed
+
+- Fix accepted link clicks causing full page reload instead of client-side navigation —
+  now uses App Router ref instead of `window.next?.router` (Pages Router artifact)
+- Add `appRouter` to effect dependency array so link interceptor re-initializes
+  if router context changes after hydration
+- Skip non-HTTP protocol links (`mailto:`, `tel:`, `blob:`, etc.) in link interceptor
+
+### Added
+
+- Export `NavigationGuardOptions` and `NavigationGuardParams` types
+
+## [1.0.1] - 2026-03-18
+
+### Changed
+
+- Updated README with full API documentation, migration guide, and fork explanation
+- Updated CHANGELOG with fork history
+- Updated LICENSE to include fork copyright
+
 ## [1.0.0] - 2026-03-18
 
 Forked from [next-navigation-guard](https://github.com/LayerXcom/next-navigation-guard) v0.3.0

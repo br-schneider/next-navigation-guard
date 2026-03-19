@@ -16,7 +16,6 @@ function useInterceptLinkClicks({ guardMapRef, }) {
         // Reset on remount (React Strict Mode)
         if (isSetup.current)
             return;
-        isSetup.current = true;
         // If AppRouterContext doesn't exist, skip
         if (!nextInternals_1.AppRouterContext) {
             (0, debug_1.debug)("AppRouterContext not available, skipping link interceptor");
@@ -27,6 +26,8 @@ function useInterceptLinkClicks({ guardMapRef, }) {
             (0, debug_1.debug)("Not in App Router context, skipping link interceptor");
             return;
         }
+        // Mark as setup only after all checks pass
+        isSetup.current = true;
         (0, debug_1.debug)("Setting up link click interceptor");
         const handleLinkClick = async (e) => {
             const target = e.target;

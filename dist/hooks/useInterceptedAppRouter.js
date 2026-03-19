@@ -39,7 +39,7 @@ function useInterceptedAppRouter({ guardMapRef, }) {
                 guarded("replace", href, () => origRouter.replace(href, ...args));
             },
             refresh: (...args) => {
-                guarded("refresh", location.href, () => origRouter.refresh(...args));
+                guarded("refresh", location.pathname + location.search, () => origRouter.refresh(...args));
             },
         };
     }, [origRouter]);
