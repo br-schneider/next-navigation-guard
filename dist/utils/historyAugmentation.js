@@ -26,24 +26,30 @@ function setupHistoryAugmentationOnce({ renderedStateRef, }) {
             originalReplaceState,
         };
     }
+    const currentState = window.history.state;
     renderedStateRef.current.index =
-        parseInt(window.history.state.__next_navigation_guard_stack_index) || 0;
+        currentState
+            ? parseInt(currentState.__next_navigation_guard_stack_index) || 0
+            : 0;
     renderedStateRef.current.token =
-        String((_a = window.history.state.__next_navigation_guard_token) !== null && _a !== void 0 ? _a : "") ||
-            newToken();
+        currentState
+            ? String((_a = currentState.__next_navigation_guard_token) !== null && _a !== void 0 ? _a : "") || newToken()
+            : newToken();
     if (debug_1.DEBUG)
         console.log(`setupHistoryAugmentationOnce: initial currentIndex is ${renderedStateRef.current.index}, token is ${renderedStateRef.current.token}`);
     writeState = () => {
+        var _a;
         if (debug_1.DEBUG)
             console.log(`setupHistoryAugmentationOnce: write state by replaceState(): currentIndex is ${renderedStateRef.current.index}, token is ${renderedStateRef.current.token}`);
         const modifiedState = {
-            ...window.history.state,
+            ...((_a = window.history.state) !== null && _a !== void 0 ? _a : {}),
             __next_navigation_guard_token: renderedStateRef.current.token,
             __next_navigation_guard_stack_index: renderedStateRef.current.index,
         };
         originalReplaceState.call(window.history, modifiedState, "", window.location.href);
     };
-    if (window.history.state.__next_navigation_guard_stack_index == null ||
+    if (!window.history.state ||
+        window.history.state.__next_navigation_guard_stack_index == null ||
         window.history.state.__next_navigation_guard_token == null) {
         writeState();
     }
@@ -57,7 +63,7 @@ function setupHistoryAugmentationOnce({ renderedStateRef, }) {
         if (debug_1.DEBUG)
             console.log(`setupHistoryAugmentationOnce: push: currentIndex is ${renderedStateRef.current.index}, token is ${renderedStateRef.current.token}`);
         const modifiedState = {
-            ...state,
+            ...(state !== null && state !== void 0 ? state : {}),
             __next_navigation_guard_token: renderedStateRef.current.token,
             __next_navigation_guard_stack_index: renderedStateRef.current.index,
         };
@@ -72,7 +78,7 @@ function setupHistoryAugmentationOnce({ renderedStateRef, }) {
         if (debug_1.DEBUG)
             console.log(`setupHistoryAugmentationOnce: replace: currentIndex is ${renderedStateRef.current.index}, token is ${renderedStateRef.current.token}`);
         const modifiedState = {
-            ...state,
+            ...(state !== null && state !== void 0 ? state : {}),
             __next_navigation_guard_token: renderedStateRef.current.token,
             __next_navigation_guard_stack_index: renderedStateRef.current.index,
         };

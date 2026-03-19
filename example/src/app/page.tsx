@@ -5,15 +5,18 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1>next-navigation-guard Example</h1>
+        <h1>next-nav-guard Example</h1>
 
         <div>
           <ol>
             <li>
-              <Link href="/page1">App Router</Link>
+              <Link href="/page1">Page 1</Link>
             </li>
             <li>
-              <Link href="/pages-router/page1">Pages Router</Link>
+              <Link href="/page2">Page 2</Link>
+            </li>
+            <li>
+              <Link href="/page3">Page 3</Link>
             </li>
           </ol>
         </div>

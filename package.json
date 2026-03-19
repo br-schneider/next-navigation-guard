@@ -1,7 +1,7 @@
 {
-  "name": "next-navigation-guard",
-  "version": "0.3.0",
-  "description": "Navigation Guard for Next.js App Router and Pages Router.",
+  "name": "nextjs-nav-guard",
+  "version": "1.0.1",
+  "description": "Navigation guard for Next.js App Router — prevent navigation when there are unsaved changes.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -17,31 +17,37 @@
   "scripts": {
     "build": "tsc -p .",
     "watch": "tsc --watch -p .",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "check:packaging": "pnpm dlx @arethetypeswrong/cli --pack .",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
     "e2e:install": "playwright install"
   },
-  "keywords": [],
-  "author": "ypresto <yuya.presto@gmail.com>",
+  "keywords": [
+    "nextjs",
+    "navigation",
+    "guard",
+    "unsaved-changes",
+    "app-router",
+    "route-guard"
+  ],
+  "author": "Brett Schneider <brett.c.schneider@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/LayerXcom/next-navigation-guard.git"
+    "url": "https://github.com/br-schneider/next-nav-guard.git"
   },
   "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1",
   "peerDependencies": {
     "next": "^14 || ^15 || ^16",
-    "react": "^18.0.0 || ^19.0.0 || ^19.0.0-rc"
+    "react": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@types/node": "^20",
-    "@types/react": "^18.3.5",
-    "next": "^14.2.11",
+    "@types/react": "^19",
+    "next": "^16.2.0",
     "playwright": "^1.52.0",
-    "react": "^18.3.1",
+    "react": "^19.0.0",
     "tsup": "^8.2.4",
     "typescript": "^5.6.2"
   }

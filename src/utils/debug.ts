@@ -2,6 +2,6 @@ export const DEBUG = typeof process !== 'undefined' && process.env.DEBUG_NAVIGAT
 
 export const debug = (...args: any[]) => {
   if (DEBUG) {
-    console.log("[next-navigation-guard]", ...args);
+    console.log("[next-nav-guard]", ...args);
   }
 };

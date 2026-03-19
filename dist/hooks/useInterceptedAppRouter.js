@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useInterceptedAppRouter = useInterceptedAppRouter;
-const app_router_context_shared_runtime_1 = require("next/dist/shared/lib/app-router-context.shared-runtime");
 const react_1 = require("react");
 const debug_1 = require("../utils/debug");
+const nextInternals_1 = require("../utils/nextInternals");
 function useInterceptedAppRouter({ guardMapRef, }) {
-    const origRouter = (0, react_1.useContext)(app_router_context_shared_runtime_1.AppRouterContext);
+    const origRouter = (0, react_1.useContext)(nextInternals_1.AppRouterContext !== null && nextInternals_1.AppRouterContext !== void 0 ? nextInternals_1.AppRouterContext : nextInternals_1.FallbackRouterContext);
     return (0, react_1.useMemo)(() => {
         if (!origRouter) {
             (0, debug_1.debug)("No original router found");

@@ -7,47 +7,26 @@ import { ForwardButton } from "./ForwardButton";
 
 export function SharedPage({
   current,
-  mode,
 }: {
   current: number;
-  mode: "appRouter" | "pagesRouter";
 }) {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1>next-navigation-guard Example</h1>
+        <h1>next-nav-guard Example</h1>
+        <div>Current Page: {current}</div>
         <div>
-          Current Page: {mode} {current}
-        </div>
-        <div style={{ display: "flex", gap: 48 }}>
-          <div>
-            <div style={{ marginBottom: 16 }}>App Router</div>
-            <ol>
-              <li>
-                <Link href="/page1">Page1</Link>
-              </li>
-              <li>
-                <Link href="/page2">Page2</Link>
-              </li>
-              <li>
-                <Link href="/page3">Page3</Link>
-              </li>
-            </ol>
-          </div>
-          <div>
-            <div style={{ marginBottom: 16 }}>Pages Router</div>
-            <ol>
-              <li>
-                <Link href="/pages-router/page1">Page1</Link>
-              </li>
-              <li>
-                <Link href="/pages-router/page2">Page2</Link>
-              </li>
-              <li>
-                <Link href="/pages-router/page3">Page3</Link>
-              </li>
-            </ol>
-          </div>
+          <ol>
+            <li>
+              <Link href="/page1">Page1</Link>
+            </li>
+            <li>
+              <Link href="/page2">Page2</Link>
+            </li>
+            <li>
+              <Link href="/page3">Page3</Link>
+            </li>
+          </ol>
         </div>
 
         <div>

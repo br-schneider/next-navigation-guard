@@ -1,5 +1,3 @@
-import { RouterContext } from "next/dist/shared/lib/router-context.shared-runtime";
-import { useContext } from "react";
 import { GuardDef, RenderedState } from "../types";
 import { DEBUG } from "../utils/debug";
 import {
@@ -19,38 +17,26 @@ export function useInterceptPopState({
 }: {
   guardMapRef: React.MutableRefObject<Map<string, GuardDef>>;
 }) {
-  const pagesRouter = useContext(RouterContext);
-
   useIsomorphicLayoutEffect(() => {
     // NOTE: Called before Next.js router setup which is useEffect().
-    // https://github.com/vercel/next.js/blob/50b9966ba9377fd07a27e3f80aecd131fa346482/packages/next/src/client/components/app-router.tsx#L518
     const { writeState } = setupHistoryAugmentationOnce({ renderedStateRef });
 
     const handlePopState = createHandlePopState(guardMapRef, writeState);
 
-    if (pagesRouter) {
-      pagesRouter.beforePopState(() => handlePopState(history.state));
+    const onPopState = (event: PopStateEvent) => {
+      if (!handlePopState(event.state)) {
+        event.stopImmediatePropagation();
+      }
+    };
 
-      return () => {
-        pagesRouter.beforePopState(() => true);
-      };
-    } else {
-      const onPopState = (event: PopStateEvent) => {
-        if (!handlePopState(event.state)) {
-          event.stopImmediatePropagation();
-        }
-      };
+    // NOTE: Called before Next.js router setup which is useEffect().
+    // NOTE: capture on popstate listener is not working on Chrome.
+    window.addEventListener("popstate", onPopState);
 
-      // NOTE: Called before Next.js router setup which is useEffect().
-      // https://github.com/vercel/next.js/blob/50b9966ba9377fd07a27e3f80aecd131fa346482/packages/next/src/client/components/app-router.tsx#L518
-      // NOTE: capture on popstate listener is not working on Chrome.
-      window.addEventListener("popstate", onPopState);
-
-      return () => {
-        window.removeEventListener("popstate", onPopState);
-      };
-    }
-  }, [pagesRouter]);
+    return () => {
+      window.removeEventListener("popstate", onPopState);
+    };
+  }, []);
 }
 
 function createHandlePopState(
@@ -60,9 +46,10 @@ function createHandlePopState(
   let dispatchedState: unknown;
 
   return (nextState: any = {}): boolean => {
-    const token: string | undefined = nextState.__next_navigation_guard_token;
+    const token: string | undefined =
+      nextState?.__next_navigation_guard_token;
     const nextIndex: number =
-      Number(nextState.__next_navigation_guard_stack_index) || 0;
+      Number(nextState?.__next_navigation_guard_stack_index) || 0;
 
     if (!token || token !== renderedStateRef.current.token) {
       if (DEBUG)
@@ -124,7 +111,6 @@ function createHandlePopState(
         }
 
         const confirm = await def.callback({ to, type: "popstate" });
-        // TODO: check cancel while waiting for navigation guard
         if (!confirm) {
           if (DEBUG) {
             console.log(
@@ -134,7 +120,6 @@ function createHandlePopState(
             );
           }
           if (delta !== 0) {
-            // discard event
             window.history.go(-delta);
           }
           return;
@@ -148,7 +133,9 @@ function createHandlePopState(
       }
       // accept
       dispatchedState = nextState;
-      window.dispatchEvent(new PopStateEvent("popstate", { state: nextState }));
+      window.dispatchEvent(
+        new PopStateEvent("popstate", { state: nextState })
+      );
     })();
 
     // Return false to call stopImmediatePropagation()

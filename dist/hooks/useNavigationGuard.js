@@ -10,7 +10,12 @@ function useNavigationGuard(options) {
     const callbackId = (0, react_1.useId)();
     const guardMapRef = (0, react_1.useContext)(NavigationGuardProviderContext_1.NavigationGuardProviderContext);
     if (!guardMapRef && !options.disableForTesting)
-        throw new Error("useNavigationGuard must be used within a NavigationGuardProvider");
+        throw new Error("[next-nav-guard] useNavigationGuard must be used within <NavigationGuardProvider>.\n" +
+            "Add it to your root layout (app/layout.tsx):\n\n" +
+            '  import { NavigationGuardProvider } from "nextjs-nav-guard";\n\n' +
+            "  export default function RootLayout({ children }) {\n" +
+            "    return <NavigationGuardProvider>{children}</NavigationGuardProvider>;\n" +
+            "  }");
     const [pendingState, setPendingState] = (0, react_1.useState)(null);
     (0, useIsomorphicLayoutEffect_1.useIsomorphicLayoutEffect)(() => {
         if (options.disableForTesting)

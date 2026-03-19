@@ -1,19 +1,21 @@
+import { MutableRefObject, useContext, useMemo } from "react";
+import { AppRouterLike, GuardDef } from "../types";
+import { debug } from "../utils/debug";
 import {
   AppRouterContext,
-  AppRouterInstance,
-} from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { MutableRefObject, useContext, useMemo } from "react";
-import { GuardDef } from "../types";
-import { debug } from "../utils/debug";
+  FallbackRouterContext,
+} from "../utils/nextInternals";
 
 export function useInterceptedAppRouter({
   guardMapRef,
 }: {
   guardMapRef: MutableRefObject<Map<string, GuardDef>>;
 }) {
-  const origRouter = useContext(AppRouterContext);
+  const origRouter: AppRouterLike | null = useContext(
+    AppRouterContext ?? FallbackRouterContext
+  );
 
-  return useMemo((): AppRouterInstance | null => {
+  return useMemo((): AppRouterLike | null => {
     if (!origRouter) {
       debug("No original router found");
       return null;
@@ -44,14 +46,14 @@ export function useInterceptedAppRouter({
 
     return {
       ...origRouter,
-      push: (href, ...args) => {
+      push: (href: string, ...args: any[]) => {
         debug(`push called with href: ${href}`);
         guarded("push", href, () => origRouter.push(href, ...args));
       },
-      replace: (href, ...args) => {
+      replace: (href: string, ...args: any[]) => {
         guarded("replace", href, () => origRouter.replace(href, ...args));
       },
-      refresh: (...args) => {
+      refresh: (...args: any[]) => {
         guarded("refresh", location.href, () => origRouter.refresh(...args));
       },
     };

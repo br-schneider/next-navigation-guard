@@ -1,1 +1,1 @@
-{"version":3,"file":"useNavigationGuard.d.ts","sourceRoot":"","sources":["../../src/hooks/useNavigationGuard.ts"],"names":[],"mappings":"AAEA,OAAO,EAA2B,sBAAsB,EAAE,MAAM,UAAU,CAAC;AAK3E,wBAAgB,kBAAkB,CAAC,OAAO,EAAE,sBAAsB;;;;EA0DjE"}
+{"version":3,"file":"useNavigationGuard.d.ts","sourceRoot":"","sources":["../../src/hooks/useNavigationGuard.ts"],"names":[],"mappings":"AAEA,OAAO,EAA2B,sBAAsB,EAAE,MAAM,UAAU,CAAC;AAK3E,wBAAgB,kBAAkB,CAAC,OAAO,EAAE,sBAAsB;;;;EA+DjE"}

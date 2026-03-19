@@ -28,4 +28,17 @@ export interface RenderedState {
     index: number;
     token: string | null;
 }
+/**
+ * Minimal App Router interface compatible with Next.js 14-16+.
+ * Defined locally to avoid depending on Next.js internal type exports.
+ */
+export interface AppRouterLike {
+    back(): void;
+    forward(): void;
+    refresh(...args: any[]): void;
+    push(href: string, ...args: any[]): void;
+    replace(href: string, ...args: any[]): void;
+    prefetch(href: string, ...args: any[]): void;
+    [key: string]: any;
+}
 //# sourceMappingURL=types.d.ts.map

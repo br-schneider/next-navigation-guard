@@ -10,7 +10,12 @@ export function useNavigationGuard(options: NavigationGuardOptions) {
   const guardMapRef = useContext(NavigationGuardProviderContext);
   if (!guardMapRef && !options.disableForTesting)
     throw new Error(
-      "useNavigationGuard must be used within a NavigationGuardProvider"
+      "[next-nav-guard] useNavigationGuard must be used within <NavigationGuardProvider>.\n" +
+        "Add it to your root layout (app/layout.tsx):\n\n" +
+        '  import { NavigationGuardProvider } from "nextjs-nav-guard";\n\n' +
+        "  export default function RootLayout({ children }) {\n" +
+        "    return <NavigationGuardProvider>{children}</NavigationGuardProvider>;\n" +
+        "  }"
     );
 
   const [pendingState, setPendingState] = useState<{

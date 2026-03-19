@@ -5,49 +5,63 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2026-03-18
 
-## [0.3.0] - 2026-02-26
-
-### Added
-
-- Add `disableForTesting` option to `useNavigationGuard` to make the hook a complete no-op without requiring `NavigationGuardProvider` context, intended for test and storybook environments.
-- Support Next.js 16 as peer dependency and add E2E CI targets for v16.0 and v16.1.
-
-## [0.2.0] - 2025-06-28
+Forked from [next-navigation-guard](https://github.com/LayerXcom/next-navigation-guard) v0.3.0
+and published as `nextjs-nav-guard`.
 
 ### Added
 
-- Support for Next.js 15.3+ Link component which no longer uses router.push()
-- Comprehensive E2E test suite using Playwright ([#28](https://github.com/LayerXcom/next-navigation-guard/pull/28))
-- Support for React 19 ([#18](https://github.com/LayerXcom/next-navigation-guard/pull/18)). @marekventur
+- Centralized Next.js internal imports (`next/dist/*`) behind try/catch fallbacks for resilience
+  across Next.js versions
+- Local `AppRouterLike` type interface to avoid depending on Next.js internal type exports
+- Dev-only console warning when `AppRouterContext` is unavailable (graceful degradation)
+- Actionable error message with code example when `useNavigationGuard` is used without provider
 
 ### Fixed
 
-- Fix to use Math.random for jest compatibility ([#17](https://github.com/LayerXcom/next-navigation-guard/pull/17)). @tmtmtoo
-- Fix jest import issue ([#14](https://github.com/LayerXcom/next-navigation-guard/pull/14)). @peinguin
+- **Next.js 16.2 runtime crash** — added null guards on all `window.history.state` accesses
+  in history augmentation, fixing `TypeError: Cannot read properties of null`
+- **React rules-of-hooks violation** — fixed conditional `useContext` call in link click interceptor
+- Removed dead code: unused `MutationObserver`, vestigial `needsInterceptor` ref,
+  orphaned `_guardIntercepted` mutation
+- Warn-once pattern for missing context warning (no console spam)
 
-## [0.1.2] - 2024-12-11
+### Removed
 
-### Fixed
+- **Pages Router support** — removed `InterceptPagesRouterProvider`, `useInterceptedPagesRouter`,
+  and all Pages Router code paths. App Router only.
+- Self-referential dependency in package.json
 
-- deps: Support Next.js 14 / 15 as peer dependencies ([#13](https://github.com/LayerXcom/next-navigation-guard/pulls/13)). @zachelrath
+### Changed
 
-## [0.1.1] - 2024-10-07
+- Package renamed from `next-navigation-guard` to `nextjs-nav-guard`
+- Debug log prefix changed to `[next-nav-guard]`
+- DevDependencies updated to Next.js 16.2 and React 19
 
-### Fixed
+---
 
-- Fix back/forward button does not change the contents of the page ([#2](https://github.com/LayerXcom/next-navigation-guard/issues/2)).
+## Prior history (as `next-navigation-guard`)
 
-## [0.1.0] - 2024-09-18
+### [0.3.0] - 2026-02-26
 
-### Added
+- Add `disableForTesting` option to `useNavigationGuard`
+- Support Next.js 16 as peer dependency
 
-- The initial release of next-navigation-guard.
+### [0.2.0] - 2025-06-28
 
-[unreleased]: https://github.com/LayerXcom/next-navigation-guard/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/LayerXcom/next-navigation-guard/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/LayerXcom/next-navigation-guard/releases/tag/v0.2.0
-[0.1.2]: https://github.com/LayerXcom/next-navigation-guard/releases/tag/v0.1.2
-[0.1.1]: https://github.com/LayerXcom/next-navigation-guard/releases/tag/v0.1.1
-[0.1.0]: https://github.com/LayerXcom/next-navigation-guard/releases/tag/v0.1.0
+- Support for Next.js 15.3+ Link component
+- Comprehensive E2E test suite using Playwright
+- Support for React 19
+
+### [0.1.2] - 2024-12-11
+
+- Support Next.js 14 / 15 as peer dependencies
+
+### [0.1.1] - 2024-10-07
+
+- Fix back/forward button navigation
+
+### [0.1.0] - 2024-09-18
+
+- Initial release

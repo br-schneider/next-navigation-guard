@@ -6,7 +6,6 @@ import { useInterceptPopState } from "../hooks/useInterceptPopState";
 import { useInterceptLinkClicks } from "../hooks/useInterceptLinkClicks";
 import { GuardDef } from "../types";
 import { InterceptAppRouterProvider } from "./InterceptAppRouterProvider";
-import { InterceptPagesRouterProvider } from "./InterceptPagesRouterProvider";
 import { NavigationGuardProviderContext } from "./NavigationGuardProviderContext";
 
 export function NavigationGuardProvider({
@@ -23,9 +22,7 @@ export function NavigationGuardProvider({
   return (
     <NavigationGuardProviderContext.Provider value={guardMapRef}>
       <InterceptAppRouterProvider guardMapRef={guardMapRef}>
-        <InterceptPagesRouterProvider guardMapRef={guardMapRef}>
-          {children}
-        </InterceptPagesRouterProvider>
+        {children}
       </InterceptAppRouterProvider>
     </NavigationGuardProviderContext.Provider>
   );

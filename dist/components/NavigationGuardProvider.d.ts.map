@@ -1,1 +1,1 @@
-{"version":3,"file":"NavigationGuardProvider.d.ts","sourceRoot":"","sources":["../../src/components/NavigationGuardProvider.tsx"],"names":[],"mappings":"AAEA,OAAO,EAAE,KAAK,SAAS,EAAU,MAAM,OAAO,CAAC;AAS/C,wBAAgB,uBAAuB,CAAC,EACtC,QAAQ,GACT,EAAE;IACD,QAAQ,EAAE,SAAS,CAAC;CACrB,2CAgBA"}
+{"version":3,"file":"NavigationGuardProvider.d.ts","sourceRoot":"","sources":["../../src/components/NavigationGuardProvider.tsx"],"names":[],"mappings":"AAEA,OAAO,EAAE,KAAK,SAAS,EAAU,MAAM,OAAO,CAAC;AAQ/C,wBAAgB,uBAAuB,CAAC,EACtC,QAAQ,GACT,EAAE;IACD,QAAQ,EAAE,SAAS,CAAC;CACrB,2CAcA"}

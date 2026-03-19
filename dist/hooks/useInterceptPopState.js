@@ -1,8 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useInterceptPopState = useInterceptPopState;
-const router_context_shared_runtime_1 = require("next/dist/shared/lib/router-context.shared-runtime");
-const react_1 = require("react");
 const debug_1 = require("../utils/debug");
 const historyAugmentation_1 = require("../utils/historyAugmentation");
 const useIsomorphicLayoutEffect_1 = require("./useIsomorphicLayoutEffect");
@@ -11,39 +9,28 @@ const renderedStateRef = {
     current: { index: -1, token: "" },
 };
 function useInterceptPopState({ guardMapRef, }) {
-    const pagesRouter = (0, react_1.useContext)(router_context_shared_runtime_1.RouterContext);
     (0, useIsomorphicLayoutEffect_1.useIsomorphicLayoutEffect)(() => {
         // NOTE: Called before Next.js router setup which is useEffect().
-        // https://github.com/vercel/next.js/blob/50b9966ba9377fd07a27e3f80aecd131fa346482/packages/next/src/client/components/app-router.tsx#L518
         const { writeState } = (0, historyAugmentation_1.setupHistoryAugmentationOnce)({ renderedStateRef });
         const handlePopState = createHandlePopState(guardMapRef, writeState);
-        if (pagesRouter) {
-            pagesRouter.beforePopState(() => handlePopState(history.state));
-            return () => {
-                pagesRouter.beforePopState(() => true);
-            };
-        }
-        else {
-            const onPopState = (event) => {
-                if (!handlePopState(event.state)) {
-                    event.stopImmediatePropagation();
-                }
-            };
-            // NOTE: Called before Next.js router setup which is useEffect().
-            // https://github.com/vercel/next.js/blob/50b9966ba9377fd07a27e3f80aecd131fa346482/packages/next/src/client/components/app-router.tsx#L518
-            // NOTE: capture on popstate listener is not working on Chrome.
-            window.addEventListener("popstate", onPopState);
-            return () => {
-                window.removeEventListener("popstate", onPopState);
-            };
-        }
-    }, [pagesRouter]);
+        const onPopState = (event) => {
+            if (!handlePopState(event.state)) {
+                event.stopImmediatePropagation();
+            }
+        };
+        // NOTE: Called before Next.js router setup which is useEffect().
+        // NOTE: capture on popstate listener is not working on Chrome.
+        window.addEventListener("popstate", onPopState);
+        return () => {
+            window.removeEventListener("popstate", onPopState);
+        };
+    }, []);
 }
 function createHandlePopState(guardMapRef, writeState) {
     let dispatchedState;
     return (nextState = {}) => {
-        const token = nextState.__next_navigation_guard_token;
-        const nextIndex = Number(nextState.__next_navigation_guard_stack_index) || 0;
+        const token = nextState === null || nextState === void 0 ? void 0 : nextState.__next_navigation_guard_token;
+        const nextIndex = Number(nextState === null || nextState === void 0 ? void 0 : nextState.__next_navigation_guard_stack_index) || 0;
         if (!token || token !== renderedStateRef.current.token) {
             if (debug_1.DEBUG)
                 console.log(`useInterceptPopState(): token mismatch, skip handling (current: ${renderedStateRef.current.token}, next: ${token})`);
@@ -83,13 +70,11 @@ function createHandlePopState(guardMapRef, writeState) {
                     console.log(`useInterceptPopState(): confirmation for listener index ${i}`);
                 }
                 const confirm = await def.callback({ to, type: "popstate" });
-                // TODO: check cancel while waiting for navigation guard
                 if (!confirm) {
                     if (debug_1.DEBUG) {
                         console.log(`useInterceptPopState(): Cancel popstate event, go(): ${renderedStateRef.current.index} - ${nextIndex} = ${-delta}`);
                     }
                     if (delta !== 0) {
-                        // discard event
                         window.history.go(-delta);
                     }
                     return;
