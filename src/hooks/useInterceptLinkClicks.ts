@@ -1,6 +1,6 @@
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
 import { MutableRefObject, useContext, useRef } from "react";
-import { GuardDef } from "../types";
+import { AppRouterLike, GuardDef } from "../types";
 import { debug } from "../utils/debug";
 import {
   AppRouterContext,
@@ -13,7 +13,11 @@ export function useInterceptLinkClicks({
   guardMapRef: MutableRefObject<Map<string, GuardDef>>;
 }) {
   const isSetup = useRef(false);
-  const appRouter = useContext(AppRouterContext ?? FallbackRouterContext);
+  const appRouter: AppRouterLike | null = useContext(
+    AppRouterContext ?? FallbackRouterContext
+  );
+  const appRouterRef = useRef(appRouter);
+  appRouterRef.current = appRouter;
 
   useIsomorphicLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -59,6 +63,9 @@ export function useInterceptLinkClicks({
 
       // Skip hash links
       if (href.startsWith("#")) return;
+
+      // Skip non-HTTP protocol links (mailto:, tel:, blob:, data:, etc.)
+      if (/^[a-z][a-z0-9+.-]*:/i.test(href)) return;
 
       // Skip if it has a target attribute (opens in new window/tab)
       if (link.target && link.target !== "_self") return;
@@ -122,7 +129,8 @@ export function useInterceptLinkClicks({
 
       if (shouldNavigate) {
         debug("All guards passed, navigating programmatically");
-        const router = (window as any).next?.router;
+        // Use the App Router for client-side navigation (avoids full page reload)
+        const router = appRouterRef.current;
         if (router) {
           if (navigateType === "replace") {
             router.replace(href);
@@ -130,6 +138,7 @@ export function useInterceptLinkClicks({
             router.push(href);
           }
         } else {
+          // Fallback to full navigation if router is unavailable
           if (navigateType === "replace") {
             location.replace(href);
           } else {
@@ -149,5 +158,5 @@ export function useInterceptLinkClicks({
       document.removeEventListener("click", handleLinkClick, true);
       isSetup.current = false;
     };
-  }, [guardMapRef]);
+  }, [guardMapRef, appRouter]);
 }

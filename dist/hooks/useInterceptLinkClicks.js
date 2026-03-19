@@ -8,6 +8,8 @@ const nextInternals_1 = require("../utils/nextInternals");
 function useInterceptLinkClicks({ guardMapRef, }) {
     const isSetup = (0, react_1.useRef)(false);
     const appRouter = (0, react_1.useContext)(nextInternals_1.AppRouterContext !== null && nextInternals_1.AppRouterContext !== void 0 ? nextInternals_1.AppRouterContext : nextInternals_1.FallbackRouterContext);
+    const appRouterRef = (0, react_1.useRef)(appRouter);
+    appRouterRef.current = appRouter;
     (0, useIsomorphicLayoutEffect_1.useIsomorphicLayoutEffect)(() => {
         if (typeof window === "undefined")
             return;
@@ -27,7 +29,6 @@ function useInterceptLinkClicks({ guardMapRef, }) {
         }
         (0, debug_1.debug)("Setting up link click interceptor");
         const handleLinkClick = async (e) => {
-            var _a;
             const target = e.target;
             const link = target.closest("a[href]");
             if (!link)
@@ -46,6 +47,9 @@ function useInterceptLinkClicks({ guardMapRef, }) {
             }
             // Skip hash links
             if (href.startsWith("#"))
+                return;
+            // Skip non-HTTP protocol links (mailto:, tel:, blob:, data:, etc.)
+            if (/^[a-z][a-z0-9+.-]*:/i.test(href))
                 return;
             // Skip if it has a target attribute (opens in new window/tab)
             if (link.target && link.target !== "_self")
@@ -96,7 +100,8 @@ function useInterceptLinkClicks({ guardMapRef, }) {
             delete link.dataset.guardProcessing;
             if (shouldNavigate) {
                 (0, debug_1.debug)("All guards passed, navigating programmatically");
-                const router = (_a = window.next) === null || _a === void 0 ? void 0 : _a.router;
+                // Use the App Router for client-side navigation (avoids full page reload)
+                const router = appRouterRef.current;
                 if (router) {
                     if (navigateType === "replace") {
                         router.replace(href);
@@ -106,6 +111,7 @@ function useInterceptLinkClicks({ guardMapRef, }) {
                     }
                 }
                 else {
+                    // Fallback to full navigation if router is unavailable
                     if (navigateType === "replace") {
                         location.replace(href);
                     }
@@ -125,5 +131,5 @@ function useInterceptLinkClicks({ guardMapRef, }) {
             document.removeEventListener("click", handleLinkClick, true);
             isSetup.current = false;
         };
-    }, [guardMapRef]);
+    }, [guardMapRef, appRouter]);
 }

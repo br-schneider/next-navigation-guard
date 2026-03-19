@@ -1,6 +1,6 @@
 {
   "name": "nextjs-nav-guard",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Navigation guard for Next.js App Router — prevent navigation when there are unsaved changes.",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
