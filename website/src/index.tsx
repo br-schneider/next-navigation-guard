@@ -7,6 +7,7 @@ import { raw } from "hono/html";
 const app = new Hono();
 
 app.use("/favicon.svg", serveStatic({ root: "./public" }));
+app.use("/styles.css", serveStatic({ root: "./public" }));
 
 app.get("*", jsxRenderer(({ children }) => {
   return (
@@ -17,38 +18,14 @@ app.get("*", jsxRenderer(({ children }) => {
         <title>nextjs-nav-guard</title>
         <meta name="description" content="Prevent accidental navigation away from unsaved changes in Next.js App Router" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        {raw(`<script>
-          tailwind.config = {
-            darkMode: 'class',
-            theme: {
-              extend: {
-                fontFamily: {
-                  mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'monospace'],
-                },
-                colors: {
-                  surface: '#0c0c0c',
-                },
-              },
-            },
-          }
-        </script>`)}
+        <link rel="stylesheet" href="/styles.css" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/styles/github-dark-dimmed.min.css" />
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/highlight.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/languages/typescript.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/languages/xml.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/languages/diff.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11/build/languages/bash.min.js"></script>
-        {raw(`<style type="text/tailwindcss">
-          html { scroll-behavior: smooth; }
-          body { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; }
-          pre { @apply border border-white/[0.08] rounded-none; }
-          pre code.hljs { border-radius: 0; padding: 1rem 1.25rem; font-size: 13px; line-height: 1.6; }
-          td code, li code, p code {
-            @apply text-[0.85em] px-1.5 py-0.5 bg-white/[0.06] border border-white/[0.08] rounded-none text-gray-300 font-mono;
-          }
-        </style>
-        <script>
+        {raw(`<script>
           document.addEventListener('DOMContentLoaded', () => {
             hljs.highlightAll();
             const btn = document.getElementById('menu-btn');

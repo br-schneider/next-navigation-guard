@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+pre {
+  @apply border border-white/[0.08];
+  border-radius: 0;
+}
+
+pre code.hljs {
+  border-radius: 0;
+  padding: 1rem 1.25rem;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+td code,
+li code,
+p code {
+  @apply text-[0.85em] px-1.5 py-0.5 bg-white/[0.06] border border-white/[0.08] text-gray-300 font-mono;
+  border-radius: 0;
+}
