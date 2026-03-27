@@ -1,0 +1,18 @@
+{
+  "name": "nextjs-nav-guard-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1",
+    "hono": "^4"
+  },
+  "devDependencies": {
+    "@hono/vite-dev-server": "^0",
+    "vite": "^6"
+  }
+}
